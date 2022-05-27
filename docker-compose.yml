@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8090:8090"
+    restart: always
+    expose:
+      - "8090"
