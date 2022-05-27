@@ -42,3 +42,4 @@ build/
 
 # Maven work files
 pom.xml.versionsBackup
+/.idea/
