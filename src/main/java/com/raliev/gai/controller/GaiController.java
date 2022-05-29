@@ -3,7 +3,9 @@ package com.raliev.gai.controller;
 import com.raliev.gai.repositories.NoElementException;
 import com.raliev.gai.service.provider.RegNumberProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,8 @@ public class GaiController {
     }
 
     @ExceptionHandler(NoElementException.class)
-    public String handleException() {
-        return "Error: all possible variations of the numbers were returned.";
+    public ResponseEntity<String> handleException() {
+        return new ResponseEntity<>("All possible variations of the numbers were returned.",
+                HttpStatus.METHOD_NOT_ALLOWED);
     }
 }
