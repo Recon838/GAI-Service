@@ -1,7 +1,7 @@
 package com.raliev.gai.controller;
 
-import com.raliev.gai.service.AbstractRegNumberGenerationService;
-import com.raliev.gai.service.RegNumberExceedException;
+import com.raliev.gai.repositories.NoElementException;
+import com.raliev.gai.service.provider.RegNumberProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class GaiController {
 
     @Autowired
-    private AbstractRegNumberGenerationService randomGenerationService;
+    private RegNumberProvider sequentialProvider;
 
     @Autowired
-    private AbstractRegNumberGenerationService sequentialGenerationService;
+    private RegNumberProvider randomProvider;
 
     @GetMapping(value = "/next", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String getNext() {
-        return sequentialGenerationService.generate().toString();
+    public String next() {
+        return sequentialProvider.provide();
     }
 
     @GetMapping(value = "/random", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String getRandom() {
-        return randomGenerationService.generate().toString();
+    public String random() {
+        return randomProvider.provide();
     }
 
-    @ExceptionHandler(RegNumberExceedException.class)
+    @ExceptionHandler(NoElementException.class)
     public String handleException() {
         return "Error: all possible variations of the numbers were returned.";
     }
